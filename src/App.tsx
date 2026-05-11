@@ -145,21 +145,6 @@ export default function App() {
         </Section>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 mt-12">
-          {/* Skills Section */}
-          <div className="lg:col-span-2">
-            <Section id="skills" title="Technical Arsenal" icon={TerminalIcon}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-10 bg-white p-8 rounded-3xl border border-neutral-200/50">
-                <SkillCategory title="Languages" skills={RESUME_DATA.skills.languages} />
-                <SkillCategory title="Backend" skills={RESUME_DATA.skills.backend} />
-                <SkillCategory title="Frontend" skills={RESUME_DATA.skills.frontend} />
-                <SkillCategory title="AI / ML" skills={RESUME_DATA.skills.ai} />
-                <SkillCategory title="DevOps & Cloud" skills={RESUME_DATA.skills.devops} />
-                <SkillCategory title="Databases" skills={RESUME_DATA.skills.databases} />
-                <SkillCategory title="Tools" skills={RESUME_DATA.skills.tools} />
-              </div>
-            </Section>
-          </div>
-
           {/* Sidebar / Extra Info */}
           <div className="space-y-16">
             <Section id="education" title="Education" icon={BookOpen}>
@@ -175,7 +160,7 @@ export default function App() {
                 {RESUME_DATA.achievements.map((achievement, i) => (
                   <motion.div 
                     key={i}
-                    initial={{ opacity: 0, x: 20 }}
+                    initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     className="p-4 bg-white border border-neutral-100 rounded-2xl flex gap-3 items-start"
@@ -186,6 +171,21 @@ export default function App() {
                     </p>
                   </motion.div>
                 ))}
+              </div>
+            </Section>
+          </div>
+
+          {/* Skills Section */}
+          <div className="lg:col-span-2">
+            <Section id="skills" title="Technical Arsenal" icon={TerminalIcon}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-10 bg-white p-8 rounded-3xl border border-neutral-200/50">
+                <SkillCategory title="Languages" skills={RESUME_DATA.skills.languages} />
+                <SkillCategory title="Backend" skills={RESUME_DATA.skills.backend} />
+                <SkillCategory title="Frontend" skills={RESUME_DATA.skills.frontend} />
+                <SkillCategory title="AI / ML" skills={RESUME_DATA.skills.ai} />
+                <SkillCategory title="DevOps & Cloud" skills={RESUME_DATA.skills.devops} />
+                <SkillCategory title="Databases" skills={RESUME_DATA.skills.databases} />
+                <SkillCategory title="Tools" skills={RESUME_DATA.skills.tools} />
               </div>
             </Section>
           </div>
