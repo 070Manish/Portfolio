@@ -156,29 +156,10 @@ export default function App() {
                 ))}
               </div>
             </Section>
-
-            <Section id="achievements" title="Achievements" icon={Award}>
-              <div className="space-y-4">
-                {RESUME_DATA.achievements.map((achievement, i) => (
-                  <motion.div 
-                    key={i}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    className="p-4 bg-white border border-neutral-100 rounded-2xl flex gap-3 items-start"
-                  >
-                    <div className="w-1.5 h-1.5 rounded-full bg-cv-teal mt-2 flex-shrink-0" />
-                    <p className="text-sm text-neutral-700 leading-relaxed">
-                      {achievement}
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
-            </Section>
           </div>
 
-          {/* Skills Section */}
-          <div className="lg:col-span-2">
+          {/* Skills Section and Achievements */}
+          <div className="lg:col-span-2 space-y-16">
             <Section id="skills" title="Technical Arsenal" icon={TerminalIcon}>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-10 bg-white p-8 rounded-3xl border border-neutral-200/50">
                 <SkillCategory title="Languages" skills={RESUME_DATA.skills.languages} />
@@ -188,6 +169,27 @@ export default function App() {
                 <SkillCategory title="DevOps & Cloud" skills={RESUME_DATA.skills.devops} />
                 <SkillCategory title="Databases" skills={RESUME_DATA.skills.databases} />
                 <SkillCategory title="Tools" skills={RESUME_DATA.skills.tools} />
+              </div>
+            </Section>
+
+            <Section id="achievements" title="Achievements" icon={Award}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {RESUME_DATA.achievements.map((achievement, i) => (
+                  <motion.div 
+                    key={i}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    className="p-5 bg-white border border-neutral-100 rounded-3xl flex gap-4 items-start shadow-sm hover:shadow-md transition-shadow"
+                  >
+                    <div className="w-10 h-10 rounded-2xl bg-cv-teal/10 flex items-center justify-center flex-shrink-0">
+                      <Award className="w-5 h-5 text-cv-teal" />
+                    </div>
+                    <p className="text-sm text-neutral-700 leading-relaxed font-medium">
+                      {achievement}
+                    </p>
+                  </motion.div>
+                ))}
               </div>
             </Section>
           </div>
