@@ -8,6 +8,7 @@ export const RESUME_DATA: ResumeData = {
     email: "a.manishnagpure@gmail.com",
     linkedin: "manish-nagpure",
     github: "070Manish",
+    resumeUrl: "/Manish_Nagpure_Resume.pdf",
   },
   education: [
     {

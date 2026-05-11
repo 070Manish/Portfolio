@@ -37,13 +37,15 @@ export default function App() {
               </a>
             ))}
           </div>
-          <button 
-            onClick={() => window.print()}
+          <a 
+            href={`${import.meta.env.BASE_URL}${RESUME_DATA.contact.resumeUrl?.replace(/^\//, '')}`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cv-blue text-white text-xs font-bold hover:shadow-lg transition-all"
           >
             <FileText className="w-4 h-4" />
             Resume PDF
-          </button>
+          </a>
         </div>
       </nav>
 

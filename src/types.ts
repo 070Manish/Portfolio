@@ -33,6 +33,7 @@ export interface ResumeData {
     email: string;
     linkedin: string;
     github: string;
+    resumeUrl?: string;
   };
   education: Education[];
   experience: Experience[];
