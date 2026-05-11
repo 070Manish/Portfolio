@@ -4,14 +4,22 @@ import { Sparkles, Send, X, Bot, User } from 'lucide-react';
 import { GoogleGenAI } from '@google/genai';
 import { RESUME_DATA } from '../constants';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
 export function AIAssistant() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{ role: 'user' | 'assistant'; content: string }[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Lazy-init AI client to prevent crash on page load if key is missing
+  const getAI = () => {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error('Missing API Key. Please set GEMINI_API_KEY in your deployment environment.');
+    }
+    // Correct initialization pattern from skill
+    return new GoogleGenAI({ apiKey });
+  };
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -28,35 +36,28 @@ export function AIAssistant() {
     setIsLoading(true);
 
     try {
+      const ai = getAI();
+      // Correct calling pattern from skill: ai.models.generateContent
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: [
-          { role: 'user', parts: [{ text: userMessage }] }
-        ],
+        model: "gemini-3-flash-preview", 
+        contents: userMessage,
         config: {
           systemInstruction: `You are an AI assistant representing Manish Nagpure.
-          Your goal is to answer questions about Manish's background, skills, and experience based on his resume data.
-          Be professional, concise, and helpful.
-          
-          Resume Data:
-          - Education: ${JSON.stringify(RESUME_DATA.education)}
-          - Experience: ${JSON.stringify(RESUME_DATA.experience)}
-          - Projects: ${JSON.stringify(RESUME_DATA.projects)}
-          - Skills: ${JSON.stringify(RESUME_DATA.skills)}
-          - Achievements: ${JSON.stringify(RESUME_DATA.achievements)}
-          
-          About his role at CAMS: He is a Software Development Engineer I working on Projects Odin (Looker Mapping and API Modernization).
-          Key Skills: Java, Spring Boot, React, GCP, Docker.
-          Education: M.Tech from IIIT Allahabad.
-          
-          If asked something not in the resume, politely steer the conversation back to his professional profile.`
+            Your goal is to answer questions about Manish's background, skills, and experience based on the following resume data:
+            ${JSON.stringify(RESUME_DATA)}
+            
+            Guidelines:
+            - Be professional, concise, and helpful.
+            - If asked something not in the resume, politely steer back to his profile.
+            - Use a friendly but engineer-focused tone.`
         }
       });
 
+      // Correct response pattern: response.text (property, not method)
       const assistantMessage = response.text || "I'm sorry, I couldn't process that.";
       setMessages(prev => [...prev, { role: 'assistant', content: assistantMessage }]);
     } catch (error) {
-      setMessages(prev => [...prev, { role: 'assistant', content: "Error: Could not connect to AI. Please check the API key." }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: `Error: ${error instanceof Error ? error.message : 'Could not connect to AI'}` }]);
     } finally {
       setIsLoading(false);
     }
